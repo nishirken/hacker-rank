@@ -2,3 +2,5 @@
 hacker-rank.cabal
 *~
 /.idea/
+/cabal.config
+/hacker-rank.iml
