@@ -1,4 +1,4 @@
-module FP.Intro (exponential, areaUnderCurves) where
+module FP.Intro (exponential, areaUnderCurves, splitOn) where
 
 truncate' :: Double -> Int -> Double
 truncate' x n = (fromIntegral $ round $ x * t) / t
@@ -8,6 +8,8 @@ exponential :: Double -> Double
 exponential 0.00 = 1.00
 exponential n =
     truncate' (foldr (\x acc -> acc + (n ** x) / (product [1..x])) 1.00 [1..9]) 4
+
+-------------
 
 dX = 0.001
 
@@ -27,3 +29,9 @@ areaUnderCurves l r a b = map (\x -> truncate' x 1) [area, volume]
         area = sum $ map((* dX) . evalP a b) $ getPointers l r
         volume = sum $ map((* dX) . circArea . evalP a b) $ getPointers l r
 
+-------------
+
+splitOn :: String -> Char -> [String]
+splitOn "" _ = []
+splitOn inputData at =
+    [(takeWhile (/= at) inputData)] ++ (splitOn (drop 1 $ dropWhile (/= at) inputData) at)

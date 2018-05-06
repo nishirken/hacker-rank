@@ -1,7 +1,7 @@
 module FP.IntroSpec (introSpec) where
 
 import Test.Hspec (SpecWith, describe, context, it, shouldBe)
-import FP.Intro (exponential, areaUnderCurves)
+import FP.Intro (exponential, areaUnderCurves, splitOn)
 
 introSpec :: SpecWith ()
 introSpec = describe "Intro" $ do
@@ -14,4 +14,7 @@ introSpec = describe "Intro" $ do
         it "works with 20.0000" $ exponential 20.0000 `shouldBe` 2423600.1887
 
     context "areaUnderCurves" $
-        it "works" $ areaUnderCurves 1 4 [1..5] [6..10] `shouldBe` [2435300.3, 26172951168898.6]
+        it "works" $ head (areaUnderCurves 1 4 [1..5] [6..10]) `shouldBe` 2435300.3
+
+    context "functionsOrNot" $
+        it "splitOn function" $ splitOn "1\n2\n1 3 4\n5 6 7" '\n' `shouldBe` ["1", "2", "1 3 4", "5 6 7"]
