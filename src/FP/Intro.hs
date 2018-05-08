@@ -1,6 +1,7 @@
-module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot) where
+module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot, polygonPerimeter) where
 
-import Text.Read (readMaybe)
+import Data.List.Split (chunksOf)
+import Data.List (transpose)
 
 truncate' :: Double -> Int -> Double
 truncate' x n = (fromIntegral $ round $ x * t) / t
@@ -62,3 +63,17 @@ functionOrNot pairs = map (answer . check) pairs
         hasSamePointPair pair pairs = any (\x -> fst x == fst pair && snd x /= snd pair) pairs
         answer x = if x then "YES" else "NO"
 
+--------------
+
+vectorLength :: [(Int, Int)] -> Double
+vectorLength coords =
+    (sqrt . fromIntegral) $ (((fst secondPoint) - (fst firstPoint)) ^ 2) + (((snd secondPoint) - (snd firstPoint)) ^ 2)
+        where
+            firstPoint = head coords
+            secondPoint = last coords
+
+polygonPerimeter :: Pairs -> [Double]
+polygonPerimeter [] = []
+polygonPerimeter pairs = map perimeter pairs
+    where
+        perimeter pairs = truncate' (sum $ map vectorLength $ transpose ([pairs] ++ [(tail pairs) ++ (take 1 pairs)])) 6

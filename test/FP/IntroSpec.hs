@@ -1,7 +1,7 @@
 module FP.IntroSpec (introSpec) where
 
 import Test.Hspec (SpecWith, describe, context, it, shouldBe)
-import FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot)
+import FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot, polygonPerimeter)
 
 introSpec :: SpecWith ()
 introSpec = describe "Intro" $ do
@@ -129,3 +129,11 @@ introSpec = describe "Intro" $ do
                 \98 402\n\
                 \99 401\n\
                 \100 400" '\n') `shouldBe` ["YES"]
+
+    context "polygon perimeter" $
+        it "works" $
+            polygonPerimeter [[(0, 0), (0, 1), (1, 1), (1, 0)],
+                [(1043, 770), (551, 990), (681, 463)],
+                [(458, 695), (621, 483), (877, 469), (1035, 636), (1061, 825), (875, 1023), (645, 1033), (485, 853)]]
+                `shouldBe` [4, 1556.394903, 1847.480551]
+
