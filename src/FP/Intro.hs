@@ -1,4 +1,6 @@
-module FP.Intro (exponential, areaUnderCurves, splitOn) where
+module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot) where
+
+import Text.Read (readMaybe)
 
 truncate' :: Double -> Int -> Double
 truncate' x n = (fromIntegral $ round $ x * t) / t
@@ -35,3 +37,26 @@ splitOn :: String -> Char -> [String]
 splitOn "" _ = []
 splitOn inputData at =
     [(takeWhile (/= at) inputData)] ++ (splitOn (drop 1 $ dropWhile (/= at) inputData) at)
+
+type Pairs = [[(Int, Int)]]
+type Answer = String
+
+makePairs :: [String] -> Pairs
+makePairs [] = []
+makePairs [""] = []
+makePairs (x: xs) =
+    [pairs] ++ (makePairs $ drop (readString x) xs)
+        where
+            readString x = (read :: String -> Int) x
+            pairs =
+                map (\stringPair ->
+                    ((readString [head stringPair], readString [last stringPair]))) $ take (readString x) xs
+
+functionOrNot :: Pairs -> [Answer]
+functionOrNot [] = ["NO"]
+functionOrNot pairs = map (answer . check) pairs
+    where
+        check x = all (\pair -> not $ hasSamePointPair pair x) x
+        hasSamePointPair pair pairs = any (\x -> fst x == fst pair && snd x /= snd pair) pairs
+        answer x = if x then "YES" else "NO"
+
