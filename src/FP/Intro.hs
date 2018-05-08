@@ -48,9 +48,11 @@ makePairs (x: xs) =
     [pairs] ++ (makePairs $ drop (readString x) xs)
         where
             readString x = (read :: String -> Int) x
+            parsePair str =
+                let stringPair = splitOn str ' ' in
+                (readString $ head stringPair, readString $ last stringPair)
             pairs =
-                map (\stringPair ->
-                    ((readString [head stringPair], readString [last stringPair]))) $ take (readString x) xs
+                map parsePair $ take (readString x) xs
 
 functionOrNot :: Pairs -> [Answer]
 functionOrNot [] = ["NO"]
