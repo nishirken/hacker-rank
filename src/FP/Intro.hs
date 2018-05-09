@@ -1,6 +1,5 @@
-module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot, polygonPerimeter) where
+module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot, polygonPerimeter, polygonArea) where
 
-import Data.List.Split (chunksOf)
 import Data.List (transpose)
 
 truncate' :: Double -> Int -> Double
@@ -77,3 +76,26 @@ polygonPerimeter [] = []
 polygonPerimeter pairs = map perimeter pairs
     where
         perimeter pairs = truncate' (sum $ map vectorLength $ transpose ([pairs] ++ [(tail pairs) ++ (take 1 pairs)])) 6
+
+--------------
+
+multiplyLists :: Num a => [a] -> [a] -> [a]
+multiplyLists [] _ = []
+multiplyLists _ [] = []
+multiplyLists (x: xs) (y: ys) = [x * y] ++ (multiplyLists xs ys)
+
+polygonArea :: Pairs -> [Double]
+polygonArea [] = []
+polygonArea pairs = map area pairs
+    where
+        area :: [(Int, Int)] -> Double
+        area pairs = abs $
+            ((fromIntegral $ sumOfProducts (init xList) (tail yList)) -
+            (fromIntegral $ sumOfProducts (tail xList) (init yList))) / 2
+                where
+                    sumOfProducts :: [Int] -> [Int] -> Int
+                    sumOfProducts x y = sum $ multiplyLists x y
+                    xList :: [Int]
+                    xList = fst $ unzip $ pairs ++ [head pairs]
+                    yList :: [Int]
+                    yList = snd $ unzip $ pairs ++ [head pairs]
