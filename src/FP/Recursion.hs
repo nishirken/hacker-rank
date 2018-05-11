@@ -1,4 +1,4 @@
-module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString) where
+module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle) where
 
 import Data.List (intercalate)
 
@@ -30,3 +30,8 @@ pascalTriangle n = [1] : iter 2 [[1, 1]]
 rowToString :: [Int] -> String
 rowToString [] = ""
 rowToString row = intercalate " " $ map show row
+
+---------
+
+sierpinskiTriangle :: Int -> String
+sierpinskiTriangle _ = ""
