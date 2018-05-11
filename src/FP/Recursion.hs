@@ -1,6 +1,6 @@
-module FP.Recursion (gcd', fib, pascalTriangle) where
+module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString) where
 
-import Data.List (transpose)
+import Data.List (intercalate)
 
 gcd' :: Integral a => a -> a -> a
 gcd' 0 x = x
@@ -15,16 +15,18 @@ fib 1 = 1
 fib n = last $ take n $ fibStream
     where fibStream = 0 : 1 : zipWith (+) fibStream (tail fibStream)
 
-
 ---------
 
+makeRow :: [Int] -> [Int]
+makeRow prevRow = 1 : zipWith (+) prevRow (tail prevRow) ++ [1]
+
 pascalTriangle :: Int -> [[Int]]
-pascalTriangle n = [1] : iter 1 [[1, 1]]
+pascalTriangle n = [1] : iter 2 [[1, 1]]
     where
         iter :: Int -> [[Int]] -> [[Int]]
-        iter rowCount acc@(prevRow: xs) = if rowCount == n then acc else
-            iter (rowCount + 1) [prevRow, makeRow prevRow []]
-                where
-                    makeRow :: [Int] -> [Int] -> [Int]
-                    makeRow [] acc = acc
-                    makeRow (x:xs) acc = makeRow xs ([x + (take 1 xs)] ++ acc)
+        iter rowCount acc = if rowCount == n then acc else
+            iter (rowCount + 1) (acc ++ [makeRow $ last acc])
+
+rowToString :: [Int] -> String
+rowToString [] = ""
+rowToString row = intercalate " " $ map show row
