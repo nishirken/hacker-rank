@@ -8,6 +8,7 @@ module FP.Recursion (
     , mergeStrings
     , swapChars
     , repeatedFilter
+    , prefixCompression
     ) where
 
 import Data.List (intercalate, null, sortBy, groupBy)
@@ -98,3 +99,8 @@ repeatedFilter n list =
                 $ filter (\x -> length x >= n)
                 $ groupBy (\(_, a) (_, b) -> a == b)
                 $ sortBy (\(_, a) (_, b) -> compare a b) (zip [(0 :: Int)..] list)
+
+---------- Prefix Compression
+
+prefixCompression :: String -> String -> [String]
+prefixCompression x y = [x]

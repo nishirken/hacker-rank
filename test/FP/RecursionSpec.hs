@@ -11,6 +11,7 @@ import FP.Recursion (
     , mergeStrings
     , swapChars
     , repeatedFilter
+    , prefixCompression
     )
 
 recursionSpec :: SpecWith ()
@@ -73,3 +74,8 @@ recursionSpec = describe "Recursion" $ do
         it "sixth case" $
             repeatedFilter 9 [3,6,2,10,3,5,5,6,8,5,8,2,3,9,10,3,7,3,5,3,4,7,6,8,10,6,5,7,6,2,6,2,8,4,7,8,10,6,7,6,5,4,4,6,2,5,7,3,6,7,2,8,6,8,4,2,3,7,4,2,3,6,10,9,9,2,7,10,6,8,9,2,4,9,10,8,8,3,6,8,5,7,8,4]
                 `shouldBe` [3,6,2,8,7]
+
+    context "Prefix Compression" $ do
+        it "first case" $ prefixCompression "abcdefpr" "abcpqr" `shouldBe` ["3 abc", "5 defpr", "3 pqr"]
+        it "second case" $ prefixCompression "kitkat" "kit" `shouldBe` ["3 kit", "3 kat", "0"]
+        it "third case" $ prefixCompression "puppy" "puppy" `shouldBe` ["5 puppy", "0", "0"]
