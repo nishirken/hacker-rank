@@ -2,12 +2,14 @@ module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinski
 
 import Data.List (intercalate)
 
+---------- Computing the GCD
+
 gcd' :: Integral a => a -> a -> a
 gcd' 0 x = x
 gcd' x 0 = x
 gcd' x y = if (rem x y) == 0 then y else gcd' y (rem x y)
 
-----------
+---------- Fibonacci Numbers
 
 fib :: Int -> Int
 fib 0 = 0
@@ -15,7 +17,7 @@ fib 1 = 1
 fib n = last $ take n $ fibStream
     where fibStream = 0 : 1 : zipWith (+) fibStream (tail fibStream)
 
----------
+--------- Pascal's Triangle
 
 makeRow :: [Int] -> [Int]
 makeRow prevRow = 1 : zipWith (+) prevRow (tail prevRow) ++ [1]
@@ -31,7 +33,7 @@ rowToString :: [Int] -> String
 rowToString [] = ""
 rowToString row = intercalate " " $ map show row
 
----------
+--------- Functions and Fractals: Sierpinski triangles
 
 triangleView :: Int -> Int -> [String]
 triangleView rows columns =
@@ -60,7 +62,7 @@ makeTree n rows columns =
 sierpinskiTriangle :: Int -> String
 sierpinskiTriangle iterationCount = concat $ map (++ "\n") $ makeTree iterationCount 32 63
 
----------
+--------- String Mingling
 
 mergeStrings :: String -> String -> String
 mergeStrings "" b = b

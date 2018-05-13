@@ -2,6 +2,8 @@ module FP.Intro (exponential, areaUnderCurves, splitOn, makePairs, functionOrNot
 
 import Data.List (transpose)
 
+------------ Evaluating e^x
+
 truncate' :: Double -> Int -> Double
 truncate' x n = (fromIntegral $ round $ x * t) / t
     where t = 10 ^ n
@@ -11,7 +13,7 @@ exponential 0.00 = 1.00
 exponential n =
     truncate' (foldr (\x acc -> acc + (n ** x) / (product [1..x])) 1.00 [1..9]) 4
 
--------------
+------------- Area Under Curves and Volume of Revolving a Curve
 
 dX = 0.001
 
@@ -31,7 +33,7 @@ areaUnderCurves l r a b = map (\x -> truncate' x 1) [area, volume]
         area = sum $ map((* dX) . evalP a b) $ getPointers l r
         volume = sum $ map((* dX) . circArea . evalP a b) $ getPointers l r
 
--------------
+------------- Functions or Not?
 
 splitOn :: String -> Char -> [String]
 splitOn "" _ = []
@@ -62,7 +64,7 @@ functionOrNot pairs = map (answer . check) pairs
         hasSamePointPair pair pairs = any (\x -> fst x == fst pair && snd x /= snd pair) pairs
         answer x = if x then "YES" else "NO"
 
---------------
+-------------- Compute the Perimeter of a Polygon
 
 vectorLength :: [(Int, Int)] -> Double
 vectorLength coords =
@@ -77,7 +79,7 @@ polygonPerimeter pairs = map perimeter pairs
     where
         perimeter pairs = truncate' (sum $ map vectorLength $ transpose ([pairs] ++ [(tail pairs) ++ (take 1 pairs)])) 6
 
---------------
+-------------- Compute the Area of a Polygon
 
 multiplyLists :: Num a => [a] -> [a] -> [a]
 multiplyLists [] _ = []
