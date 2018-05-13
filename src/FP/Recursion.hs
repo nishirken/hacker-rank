@@ -10,7 +10,7 @@ module FP.Recursion (
     , repeatedFilter
     ) where
 
-import Data.List (intercalate, nub, null)
+import Data.List (intercalate, null, sortBy, groupBy)
 
 ---------- Computing the GCD
 
@@ -87,7 +87,14 @@ swapChars (x:y:xs) = y : x : (swapChars xs)
 
 --------- Filter Elements
 
-repeatedFilter :: (Num a, Ord a) => Int -> [a] -> [a]
+repeatedFilter :: Int -> [Int] -> [Int]
 repeatedFilter _ [] = []
-repeatedFilter n list = if null res then [-1] else res
-    where res = filter (\x -> (<=) n (length $ filter (\y -> x == y) list)) $ nub list
+repeatedFilter n list =
+    if null res then [-1] else res
+        where res =
+                map (snd)
+                $ sortBy (\(a, _) (b, _) -> compare a b)
+                $ map head
+                $ filter (\x -> length x >= n)
+                $ groupBy (\(_, a) (_, b) -> a == b)
+                $ sortBy (\(_, a) (_, b) -> compare a b) (zip [(0 :: Int)..] list)
