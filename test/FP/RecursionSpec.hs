@@ -1,7 +1,7 @@
 module FP.RecursionSpec (recursionSpec) where
 
 import Test.Hspec (SpecWith, describe, context, it, shouldBe)
-import FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings)
+import FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings, swapChars)
 
 recursionSpec :: SpecWith ()
 recursionSpec = describe "Recursion" $ do
@@ -45,3 +45,8 @@ recursionSpec = describe "Recursion" $ do
             "fjftcaukbqckpytznnnmisqncpjcgqcyqncezeymywxsfrcfek"
                 `shouldBe`
                     "hfzjefqtwchagujkvbmqrclkjppyxttzonnnonbmaijsvqgnjcwpjjqcpgjqmcnyxqtnlcgebzceyyqmbynwtxpsoforrcefxeuk"
+
+    context "Swap chars in string" $ do
+        it "first case" $ swapChars "abcdpqrs" `shouldBe` "badcqpsr"
+        it "second case" $ swapChars "az" `shouldBe` "za"
+

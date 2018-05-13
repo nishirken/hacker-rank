@@ -1,4 +1,4 @@
-module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings) where
+module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings, swapChars) where
 
 import Data.List (intercalate)
 
@@ -68,3 +68,9 @@ mergeStrings :: String -> String -> String
 mergeStrings "" b = b
 mergeStrings a "" = a
 mergeStrings a b = concat $ zipWith (\x y -> x : [y]) a b
+
+--------- String-o-Permute
+
+swapChars :: String -> String
+swapChars "" = ""
+swapChars (x:y:xs) = y : x : (swapChars xs)
