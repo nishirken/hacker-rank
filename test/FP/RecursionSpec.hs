@@ -21,13 +21,17 @@ recursionSpec = describe "Recursion" $ do
 
     context "Sierpinski triangle" $ do
         it "iteration 0" $ do
-            expected <- readFile "./test/FP/sierpinski-triangle/iteration0.txt"
+            expected <- readFile "./test/FP/SierpinskiTriangle/iteration0.txt"
             sierpinskiTriangle 0 `shouldBe` expected
 
         it "iteration 1" $ do
-            expected <- readFile "./test/FP/sierpinski-triangle/iteration1.txt"
+            expected <- readFile "./test/FP/SierpinskiTriangle/iteration1.txt"
             sierpinskiTriangle 1 `shouldBe` expected
 
         it "iteration 2" $ do
-            expected <- readFile "./test/FP/sierpinski-triangle/iteration2.txt"
+            expected <- readFile "./test/FP/SierpinskiTriangle/iteration2.txt"
             sierpinskiTriangle 2 `shouldBe` expected
+
+        it "iteration 5" $ do
+            expected <- readFile "./test/FP/SierpinskiTriangle/iteration5.txt"
+            sierpinskiTriangle 5 `shouldBe` expected

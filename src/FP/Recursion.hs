@@ -1,4 +1,4 @@
-module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle) where
+module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, triangleView) where
 
 import Data.List (intercalate)
 
@@ -33,5 +33,29 @@ rowToString row = intercalate " " $ map show row
 
 ---------
 
+triangleView :: Int -> Int -> [String]
+triangleView rows columns =
+    map rowView [1..rows]
+        where
+            rowView :: Int -> String
+            rowView row = underscores ++ (replicate ones '1') ++ underscores
+                where
+                    ones = row * 2 - 1
+                    underscores = replicate (round $ (fromIntegral (columns) - fromIntegral (ones)) / 2) '_'
+
+underscoreView :: Int -> Int -> [String]
+underscoreView rows columns = map (\x -> replicate columns '_') [1..rows]
+
+makeTree :: Int -> Int -> Int -> [String]
+makeTree 0 rows columns = triangleView rows columns
+makeTree n rows columns =
+    (++)
+        (zipWith3 (\x y z -> x ++ y ++ z) underscoreField square underscoreField)
+        (zipWith3 (\x y z -> x ++ y ++ z) square gap square)
+        where
+            square = (makeTree (n - 1) (round $ fromIntegral rows / 2) (floor $ fromIntegral columns / 2))
+            underscoreField = underscoreView (round $ fromIntegral rows / 2) (round $ fromIntegral columns / 4)
+            gap = underscoreView (round $ fromIntegral rows / 2) 1
+
 sierpinskiTriangle :: Int -> String
-sierpinskiTriangle _ = ""
+sierpinskiTriangle iterationCount = concat $ map (++ "\n") $ makeTree iterationCount 32 63
