@@ -1,6 +1,16 @@
-module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings, swapChars) where
+module FP.Recursion (
+    gcd'
+    , fib
+    , pascalTriangle
+    , makeRow
+    , rowToString
+    , sierpinskiTriangle
+    , mergeStrings
+    , swapChars
+    , repeatedFilter
+    ) where
 
-import Data.List (intercalate)
+import Data.List (intercalate, nub, null)
 
 ---------- Computing the GCD
 
@@ -74,3 +84,10 @@ mergeStrings a b = concat $ zipWith (\x y -> x : [y]) a b
 swapChars :: String -> String
 swapChars "" = ""
 swapChars (x:y:xs) = y : x : (swapChars xs)
+
+--------- Filter Elements
+
+repeatedFilter :: (Num a, Ord a) => Int -> [a] -> [a]
+repeatedFilter _ [] = []
+repeatedFilter n list = if null res then [-1] else res
+    where res = filter (\x -> (<=) n (length $ filter (\y -> x == y) list)) $ nub list
