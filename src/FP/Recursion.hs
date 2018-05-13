@@ -1,4 +1,4 @@
-module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, triangleView) where
+module FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings) where
 
 import Data.List (intercalate)
 
@@ -59,3 +59,10 @@ makeTree n rows columns =
 
 sierpinskiTriangle :: Int -> String
 sierpinskiTriangle iterationCount = concat $ map (++ "\n") $ makeTree iterationCount 32 63
+
+---------
+
+mergeStrings :: String -> String -> String
+mergeStrings "" b = b
+mergeStrings a "" = a
+mergeStrings a b = concat $ zipWith (\x y -> x : [y]) a b

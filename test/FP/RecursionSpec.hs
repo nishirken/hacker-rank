@@ -1,7 +1,7 @@
 module FP.RecursionSpec (recursionSpec) where
 
 import Test.Hspec (SpecWith, describe, context, it, shouldBe)
-import FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle)
+import FP.Recursion (gcd', fib, pascalTriangle, makeRow, rowToString, sierpinskiTriangle, mergeStrings)
 
 recursionSpec :: SpecWith ()
 recursionSpec = describe "Recursion" $ do
@@ -35,3 +35,13 @@ recursionSpec = describe "Recursion" $ do
         it "iteration 5" $ do
             expected <- readFile "./test/FP/SierpinskiTriangle/iteration5.txt"
             sierpinskiTriangle 5 `shouldBe` expected
+
+    context "Merge strings" $ do
+        it "first case" $ mergeStrings "abcde" "pqrst" `shouldBe` "apbqcrdset"
+        it "second case" $ mergeStrings "hacker" "ranker" `shouldBe` "hraacnkkeerr"
+        it "third case" $
+            mergeStrings
+            "hzeqwhgjvmrljpxtonobajvgjwjqpjmnxtlgbcyqbntpoorexu"
+            "fjftcaukbqckpytznnnmisqncpjcgqcyqncezeymywxsfrcfek"
+                `shouldBe`
+                    "hfzjefqtwchagujkvbmqrclkjppyxttzonnnonbmaijsvqgnjcwpjjqcpgjqmcnyxqtnlcgebzceyyqmbynwtxpsoforrcefxeuk"
