@@ -14,6 +14,7 @@ import FP.Recursion (
     , prefixCompression
     , nub'
     , stringCompression
+    , sumsOfPowers
     )
 
 recursionSpec :: SpecWith ()
@@ -91,3 +92,8 @@ recursionSpec = describe "Recursion" $ do
         it "first case" $ stringCompression "abcaaabbb" `shouldBe` "abca3b3"
         it "second case" $ stringCompression "abcd" `shouldBe` "abcd"
         it "third case" $ stringCompression "aaabaaaaccaaaaba" `shouldBe` "a3ba4c2a4ba"
+
+    context "Sums of Powers" $ do
+        it "first case" $ sumsOfPowers 100 2 `shouldBe` 3
+        it "second case" $ sumsOfPowers 100 3 `shouldBe` 1
+        it "third case" $ sumsOfPowers 10 2 `shouldBe` 1

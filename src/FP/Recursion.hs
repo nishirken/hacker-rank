@@ -11,6 +11,7 @@ module FP.Recursion (
     , prefixCompression
     , nub'
     , stringCompression
+    , sumsOfPowers
     ) where
 
 import Data.List (intercalate, null, sortBy, groupBy, delete, (\\), group)
@@ -130,3 +131,13 @@ stringCompression :: String -> String
 stringCompression "" = ""
 stringCompression str =
     concat $ map (\x -> if length x == 1 then x else (take 1 x) ++ (show $ length x)) $ group str
+
+---------- The Sums of Powers
+
+sumsOfPowers :: Int -> Int -> Int
+sumsOfPowers n p = iter n n
+    where iter s max =
+            if s < 1 then 0
+            else sum $ map
+                (\x -> if (floor $ x ** n) == s then 1 else iter (s - (floor $ x ** n)) (x - 1))
+                [(maximum max $ floor $ s ** (1 / n))..1]
