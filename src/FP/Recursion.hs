@@ -9,9 +9,10 @@ module FP.Recursion (
     , swapChars
     , repeatedFilter
     , prefixCompression
+    , nub'
     ) where
 
-import Data.List (intercalate, null, sortBy, groupBy, (\\))
+import Data.List (intercalate, null, sortBy, groupBy, delete, (\\))
 
 ---------- Computing the GCD
 
@@ -111,3 +112,13 @@ prefixCompression x y =
             prefix = map fst $ takeWhile (\(a, b) -> a == b) pairs
             firstSuffix = x \\ prefix
             secondSuffix = y \\ prefix
+
+---------- nub'
+
+nub' :: Eq a => [a] -> [a]
+nub' [] = []
+nub' x = iter x []
+    where
+        iter :: Eq a => [a] -> [a] -> [a]
+        iter [] acc = acc
+        iter (x:xs) acc = if x `elem` xs then iter (delete x xs) (acc ++ [x]) else iter xs (acc ++ [x])

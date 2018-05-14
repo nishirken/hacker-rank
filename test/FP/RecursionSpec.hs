@@ -12,6 +12,7 @@ import FP.Recursion (
     , swapChars
     , repeatedFilter
     , prefixCompression
+    , nub'
     )
 
 recursionSpec :: SpecWith ()
@@ -79,3 +80,8 @@ recursionSpec = describe "Recursion" $ do
         it "first case" $ prefixCompression "abcdefpr" "abcpqr" `shouldBe` ["3 abc", "5 defpr", "3 pqr"]
         it "second case" $ prefixCompression "kitkat" "kit" `shouldBe` ["3 kit", "3 kat", "0"]
         it "third case" $ prefixCompression "puppy" "puppy" `shouldBe` ["5 puppy", "0", "0"]
+
+    context "nub implementaion" $ do
+        it "first case" $ nub' "accabb" `shouldBe` "acb"
+        it "second case" $ nub' "abc" `shouldBe` "abc"
+        it "third case" $ nub' "pprrqq" `shouldBe` "prq"
