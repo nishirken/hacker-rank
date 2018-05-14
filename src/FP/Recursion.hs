@@ -10,9 +10,10 @@ module FP.Recursion (
     , repeatedFilter
     , prefixCompression
     , nub'
+    , stringCompression
     ) where
 
-import Data.List (intercalate, null, sortBy, groupBy, delete, (\\))
+import Data.List (intercalate, null, sortBy, groupBy, delete, (\\), group)
 
 ---------- Computing the GCD
 
@@ -122,3 +123,10 @@ nub' x = iter x []
         iter :: Eq a => [a] -> [a] -> [a]
         iter [] acc = acc
         iter (x:xs) acc = if x `elem` xs then iter (delete x xs) (acc ++ [x]) else iter xs (acc ++ [x])
+
+---------- String Compression
+
+stringCompression :: String -> String
+stringCompression "" = ""
+stringCompression str =
+    concat $ map (\x -> if length x == 1 then x else (take 1 x) ++ (show $ length x)) $ group str
