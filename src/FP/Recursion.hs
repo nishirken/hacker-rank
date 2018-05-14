@@ -11,7 +11,7 @@ module FP.Recursion (
     , prefixCompression
     ) where
 
-import Data.List (intercalate, null, sortBy, groupBy)
+import Data.List (intercalate, null, sortBy, groupBy, (\\))
 
 ---------- Computing the GCD
 
@@ -93,14 +93,21 @@ repeatedFilter _ [] = []
 repeatedFilter n list =
     if null res then [-1] else res
         where res =
-                map (snd)
-                $ sortBy (\(a, _) (b, _) -> compare a b)
-                $ map head
-                $ filter (\x -> length x >= n)
-                $ groupBy (\(_, a) (_, b) -> a == b)
-                $ sortBy (\(_, a) (_, b) -> compare a b) (zip [(0 :: Int)..] list)
+                map snd
+                    $ sortBy (\(a, _) (b, _) -> compare a b)
+                    $ map head
+                    $ filter (\x -> length x >= n)
+                    $ groupBy (\(_, a) (_, b) -> a == b)
+                    $ sortBy (\(_, a) (_, b) -> compare a b) (zip [(0 :: Int)..] list)
 
 ---------- Prefix Compression
 
 prefixCompression :: String -> String -> [String]
-prefixCompression x y = [x]
+prefixCompression x y =
+    [(len prefix) ++ prefix, (len firstSuffix) ++ firstSuffix, (len secondSuffix) ++ secondSuffix]
+        where
+            pairs = zip x y
+            len str = if (not . null) str then (show $ length str) ++ " " else (show $ length str)
+            prefix = map fst $ takeWhile (\(a, b) -> a == b) pairs
+            firstSuffix = x \\ prefix
+            secondSuffix = y \\ prefix
