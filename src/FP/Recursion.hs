@@ -135,9 +135,9 @@ stringCompression str =
 ---------- The Sums of Powers
 
 sumsOfPowers :: Int -> Int -> Int
-sumsOfPowers n p = iter n n
-    where iter s max =
-            if s < 1 then 0
-            else sum $ map
-                (\x -> if (floor $ x ** n) == s then 1 else iter (s - (floor $ x ** n)) (x - 1))
-                [(maximum max $ floor $ s ** (1 / n))..1]
+sumsOfPowers x p = iter x p 1 0
+    where
+        iter :: Int -> Int -> Int -> Double -> Int
+        iter x p num s =
+            if s == x then 1
+            else sum $ map (\y -> iter x p y (s + (y ** p))) [num..(x ** (1 / p))]
