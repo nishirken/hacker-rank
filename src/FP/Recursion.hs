@@ -137,7 +137,10 @@ stringCompression str =
 sumsOfPowers :: Int -> Int -> Int
 sumsOfPowers x p = iter x p 1 0
     where
-        iter :: Int -> Int -> Int -> Double -> Int
+        iter :: Int -> Int -> Int -> Int -> Int
         iter x p num s =
             if s == x then 1
-            else sum $ map (\y -> iter x p y (s + (y ** p))) [num..(x ** (1 / p))]
+            else sum
+                $ map
+                    (\y -> iter x p (y + 1) (s + (floor ((fromIntegral y) ** (fromIntegral p)))))
+                    [num..(floor ((fromIntegral x) ** (1 / (fromIntegral p))))]
