@@ -15,6 +15,8 @@ import FP.Recursion (
     , nub'
     , stringCompression
     , sumsOfPowers
+    , prefix
+    , sequenceFullOfColors
     )
 
 recursionSpec :: SpecWith ()
@@ -97,3 +99,14 @@ recursionSpec = describe "Recursion" $ do
         it "first case" $ sumsOfPowers 100 2 `shouldBe` 3
         it "second case" $ sumsOfPowers 100 3 `shouldBe` 1
         it "third case" $ sumsOfPowers 10 2 `shouldBe` 1
+
+    context "Prefix function" $ do
+        it "first case" $ prefix "YGYGRBRB" `shouldBe` "YGYG"
+        it "second case" $ prefix "RYRB" `shouldBe` "RYR"
+        it "third case" $ prefix "RYYYYYYRB" `shouldBe` "RYYYYYYR"
+
+    context "Sequence full of colors" $ do
+        it "first case" $ sequenceFullOfColors "RGGR" `shouldBe` True
+        it "second case" $ sequenceFullOfColors "RYBG" `shouldBe` True
+        it "third case" $ sequenceFullOfColors "RYRB" `shouldBe` False
+        it "fourth case" $ sequenceFullOfColors "YGYGRBRB" `shouldBe` False

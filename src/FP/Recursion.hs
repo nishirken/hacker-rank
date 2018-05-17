@@ -12,9 +12,11 @@ module FP.Recursion (
     , nub'
     , stringCompression
     , sumsOfPowers
+    , prefix
+    , sequenceFullOfColors
     ) where
 
-import Data.List (intercalate, null, sortBy, groupBy, delete, (\\), group)
+import Data.List (intercalate, null, sortBy, groupBy, delete, (\\), group, find, sort)
 
 ---------- Computing the GCD
 
@@ -144,3 +146,31 @@ sumsOfPowers x p = iter x p 1 0
                 $ map
                     (\y -> iter x p (y + 1) (s + (floor ((fromIntegral y) ** (fromIntegral p)))))
                     [num..(floor ((fromIntegral x) ** (1 / (fromIntegral p))))]
+
+---------- Sequence full of colors
+
+type BallColors = String
+
+prefix :: String -> String
+prefix "" = ""
+prefix [a] = [a]
+prefix (x:y:xs) =
+    if x /= y then x:y:((takeWhile (\z -> (z == x) || (z == y))) xs)
+    else x:y:(prefix xs)
+
+sequenceFullOfColors :: BallColors -> Bool
+sequenceFullOfColors "" = False
+sequenceFullOfColors colors =
+    and [
+        sameLength 'R' 'G'
+        , sameLength 'Y' 'B'
+        --, (lengthDiff 'R' 'G') < (Just 2)
+        --, (lengthDiff 'Y' 'B') < (Just 2)
+    ]
+        where
+            groupByColor color = find (\x -> head x == color) $ (group . sort) colors
+            groupInPrefix color = find (\x -> head x == color) $ (group . sort . prefix) colors
+            lengthDiff firstColor secondColor =
+                fmap abs $ (-) <$> (fmap length $ groupInPrefix firstColor) <*> (fmap length $ groupInPrefix secondColor)
+            sameLength firstColor secondColor =
+                (==) (fmap length $ groupByColor firstColor) (fmap length $ groupByColor secondColor)
